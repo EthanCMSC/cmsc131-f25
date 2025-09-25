@@ -2,26 +2,17 @@ package projects.bank;
 
 public class Bank
 {
-    // Data
+    // Instance variables
     private Account[] accounts;
 
-    // Constructor
-    public Bank(
-        Account[] accounts
-    ){
-        if (accounts != null)
-        {
-            this.accounts = accounts;
-        }
-        // Throw error if accounts array is null
-        else
-        {
-            throw new IllegalArgumentException("Array of accounts must not be null.");
-        }
+    // Constructors
+    public Bank()
+    {
+        this.accounts = new Account[0];
     }
 
     // Instance methods
-    public void add(Account newAcct) // Adds a new account to bank. New account's ID must be unique.
+    public boolean add(Account newAcct) // Adds a new account to bank. New account's ID must be unique. Returns true if successful; returns false if failed.
     {
         // Create new accounts array
         Account[] temp = new Account[this.accounts.length + 1];
@@ -30,27 +21,42 @@ public class Bank
         for (int i = 0; i < this.accounts.length; i ++)
         {
             // Check that new account ID is unique
-            if (newAcct.getID() != this.accounts[i])
+            if (!newAcct.getID().equals(this.accounts[i].getID()))
             {
                 temp[i] = this.accounts[i];
             }
-            // Cancel account creation and print feedback message if ID is in use
+            // Cancel account creation and return false if ID is in use
             else
             {
-                System.out.println("Account could not be added to bank; specified ID already in use.");
-                break;
+                return false;
             }
         }
 
         // Add new account at end of new array
         temp[temp.length - 1] = newAcct;
 
-        // Save new array to accounts variable
+        // Save new array to accounts variable and return true
         this.accounts = temp;
+        return true;
     }
 
-    public void find(String acctID) // Finds a bank account with the specified ID. Returns true if the account exists; returns false otherwise.
+    public Account find(String acctID) // Finds a bank account with the specified ID. Returns the account if it exists; returns null otherwise.
     {
-        
+        // Iterate through existing accounts
+        for (Account acct : this.accounts)
+        {
+            // Return account if ID matches
+            if (acct.getID().equals(acctID))
+            {
+                return acct;
+            }
+        }
+        // Return null if account was not found
+        return null;
+    }
+
+    public int getCount() // Returns an int value equal to the number of accounts stored in the bank.
+    {
+        return this.accounts.length;
     }
 }
