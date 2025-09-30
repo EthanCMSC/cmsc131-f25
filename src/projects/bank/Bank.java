@@ -12,15 +12,16 @@ public class Bank
     }
 
     // Instance methods
+    // TODO javadoc
     public boolean add(Account newAcct) // Adds a new account to bank. New account's ID must be unique. Returns true if successful; returns false if failed.
     {
         // Create new accounts array
         Account[] temp = new Account[this.accounts.length + 1];
         
-        // Copy existing accounts to new array
+        // Copy existing accounts to new array TODO reconsider strategy
         for (int i = 0; i < this.accounts.length; i ++)
         {
-            // Check that new account ID is unique
+            // Check that new account ID is unique TODO use find method
             if (!newAcct.getID().equals(this.accounts[i].getID()))
             {
                 temp[i] = this.accounts[i];
@@ -40,6 +41,7 @@ public class Bank
         return true;
     }
 
+    // TODO change return value to match spec
     public Account find(String acctID) // Finds a bank account with the specified ID. Returns the account if it exists; returns null otherwise.
     {
         // Iterate through existing accounts
@@ -52,11 +54,11 @@ public class Bank
             }
         }
         // Return null if account was not found
-        return null;
+        return null; // noooooooooo
     }
 
     public int getCount() // Returns an int value equal to the number of accounts stored in the bank.
     {
-        return this.accounts.length;
+        return this.accounts.length;  // TODO return correct value
     }
 }
