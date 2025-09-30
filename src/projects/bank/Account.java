@@ -8,7 +8,7 @@ public class Account {
     private double balance;
     private final AccountType accountType;
 
-    // Constructors
+    // Constructors TODO add javadoc
     public Account (
         String id,
         String ownerName,
@@ -16,9 +16,10 @@ public class Account {
         AccountType accountType
     ) {
         // Ensure no null values are present
+        // TODO better to check one at a time and throw a distinct error for each
         if (id != null
         &&  ownerName != null
-        &&  balance != null
+        &&  balance != null  // remove this line
         &&  accountType != null
         ) {
             this.id = id;
@@ -58,6 +59,7 @@ public class Account {
     }
 
     // Returns true if the Account's data matches that of the Account passed
+    // Consider also overriding hashCode
     public boolean equals(Account other)
     {
         return this.getID().equals(other.getID())
