@@ -3,12 +3,18 @@ package projects.bank;
 public class Account {
 
     // Instance variables
-    private final String id;
-    private final String ownerName;
+    private String id;
+    private String ownerName;
     private double balance;
-    private final AccountType accountType;
+    private AccountType accountType;
 
-    // Constructors TODO add javadoc
+    /**
+     * Account Constructor
+     * @param id - The ID String that distinguishes the Account from other Account instances. Must be unique.
+     * @param ownerName - The name of the account's owner.
+     * @param balance - The current balance in the Account.
+     * @param accountType - Whether the Account is a checking or savings account.
+     */
     public Account (
         String id,
         String ownerName,
@@ -16,10 +22,8 @@ public class Account {
         AccountType accountType
     ) {
         // Ensure no null values are present
-        // TODO better to check one at a time and throw a distinct error for each
         if (id != null
         &&  ownerName != null
-        &&  balance != null  // remove this line
         &&  accountType != null
         ) {
             this.id = id;
@@ -28,38 +32,61 @@ public class Account {
             this.accountType = accountType;
         }
         // Throw error if null value is found
-        else
+        else if (id == null)
         {
-            throw new IllegalArgumentException("New Account must not have any null values.");
+            throw new IllegalArgumentException("New Account's id value must not be null.");
+        }
+        else if (ownerName == null)
+        {
+            throw new IllegalArgumentException("New Account's ownerName value must not be null.");
+        }
+        else if (accountType == null)
+        {
+            throw new IllegalArgumentException("New Account's accountType value must not be null.");
         }
     }
 
-    // Returns the ID of the account.
+    /**
+     * ID Accessor
+     * @return - Account ID String
+     */
     public String getID()
     {
         return this.id;
     }
 
-    // Returns the name of the account's owner.
+    /**
+     * Owner Name Accessor
+     * @return - Name of Account's owner
+     */
     public String getOwnerName()
     {
         return this.ownerName;
     }
 
-    // Returns the balance in the account.
+    /**
+     * Balance Accessor
+     * @return - Current Account balance
+     */
     public double getBalance()
     {
         return this.balance;
     }
 
-    // Returns the Account's type (checking or savings).
+    /**
+     * Account Type Accessor
+     * @return - AccountType CHECKING or SAVINGS
+     */
     public AccountType getAccountType()
     {
         return this.accountType;
     }
 
-    // Returns true if the Account's data matches that of the Account passed
-    // Consider also overriding hashCode
+    /**
+     * Compares two Account objects; returns true if their data is the same
+     * @param other - Account to compare with
+     * @return - true if Accounts' data match; false otherwise
+     */
     public boolean equals(Account other)
     {
         return this.getID().equals(other.getID())
@@ -67,4 +94,6 @@ public class Account {
             && this.getBalance() == other.getBalance()
             && this.getAccountType() == other.getAccountType();
     }
+
+    // TODO Override hashCode() method
 }
