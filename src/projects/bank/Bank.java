@@ -59,7 +59,8 @@ public class Bank
         for (int i = 0; i < this.accounts.length; i ++)
         {
             // Return account if ID matches
-            if (this.accounts[i].getID().equals(acctID))
+            if (this.accounts[i] != null
+            &&  this.accounts[i].getID().equals(acctID))
             {
                 return i;
             }
