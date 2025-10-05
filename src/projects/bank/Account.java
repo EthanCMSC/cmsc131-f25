@@ -95,5 +95,8 @@ public class Account {
             && this.getAccountType() == other.getAccountType();
     }
 
-    // TODO Override hashCode() method
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(this.id, this.ownerName, this.balance, this.accountType);
+    }
 }

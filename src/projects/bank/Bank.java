@@ -85,4 +85,34 @@ public class Bank
 
         return this.accounts.length;
     }
+
+    /**
+     * Compares two Bank objects; returns true if their data is the same
+     * @param other - Bank to compare with
+     * @return - true if Banks' data match; false otherwise
+     */
+    public boolean equals(Bank other)
+    {
+        if (this.getCount() == other.getCount())
+        {
+            for (int i = 0; i < this.accounts.length; i ++)
+            {
+                if (this.accounts[i] != null
+                &&  !this.accounts[i].equals(other.accounts[i]))
+                {
+                    // Return false if data does not match
+                    return false;
+                }
+            }
+            // Return true if data matches
+            return true;
+        }
+        // Return false if data does not match
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(this.accounts);
+    }
 }

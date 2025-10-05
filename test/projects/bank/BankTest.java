@@ -6,7 +6,7 @@ public class BankTest
     {
         // Create Bank object
         Bank bank = new Bank();
-
+        
         // Test add() method (success w/o overflow)
         System.out.println(bank.add(new Account("JohnDoeChecking", "John Doe", 1000.00, AccountType.CHECKING))); // Should print "true"
         System.out.println(bank.add(new Account("JaneDoeSavings", "Jane Doe", 1000.00, AccountType.SAVINGS))); // Should print "true"
@@ -28,8 +28,13 @@ public class BankTest
         // Test find() method (failure)
         System.out.println(bank.find("JaneDoeChecking")); // Should print "-1"
         System.out.println(bank.find("JohnDoeSavings")); // Should print "-1"
-
+        
         // Test getCount() method
         System.out.println(bank.getCount()); // Should print "101"
+        
+        // Test equals() method
+        Bank different = new Bank();
+        System.out.println(bank.equals(bank)); // Should print "true"
+        System.out.println(bank.equals(different)); // Should print "false"
     }
 }

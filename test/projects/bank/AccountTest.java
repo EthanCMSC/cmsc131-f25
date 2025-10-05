@@ -18,11 +18,14 @@ public class AccountTest
             AccountType.SAVINGS
         );
 
+        // Test accessor methods
         System.out.println(checkingAcct.getID()); // Should print "0"
         System.out.println(savingsAcct.getOwnerName()); // Should print "Jane Doe"
         System.out.println(checkingAcct.getBalance()); // Should print "4598.05"
         System.out.println(checkingAcct.getAccountType()); // Should print "CHECKING"
         System.out.println(savingsAcct.getAccountType()); // Should print "SAVINGS"
+
+        // Test equals() method
         System.out.println(checkingAcct.equals(checkingAcct)); // Should print "true"
         System.out.println(checkingAcct.equals(savingsAcct)); // Should print "false"
     }
