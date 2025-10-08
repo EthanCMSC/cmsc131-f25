@@ -56,6 +56,7 @@ public class Bank
     public int find(String acctID)
     {
         // Iterate through existing accounts
+        // TODO consider using a numberOfAccounts attribute to simplify the conditional
         for (int i = 0; i < this.accounts.length; i ++)
         {
             // Return account if ID matches
@@ -73,7 +74,11 @@ public class Bank
      * Returns the number of accounts in the bank
      * @return - int equal to number of accounts in bank
      */
-    public int getCount()
+    // TODO reconsider the logic of this method
+    // instead, you could maintain the number of accounts as an attribute
+    // that gets incremented each time `add` is successful
+    // bonus: you can then use it to find the slot for the next account to add
+     public int getCount()
     {
         for (int i = 0; i < this.accounts.length; i ++)
         {
