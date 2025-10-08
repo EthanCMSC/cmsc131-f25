@@ -2,6 +2,9 @@ package projects.bank;
 
 public class BankTest
 {
+
+    // TODO reformat to junit guidelines
+
     public static void main(String[] args)
     {
         // Create Bank object
