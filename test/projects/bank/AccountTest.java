@@ -2,6 +2,7 @@ package projects.bank;
 
 public class AccountTest
 {
+    // TODO reformat with JUnit 
     public static void main(String[] args)
     {
         // Initialize test Accounts
