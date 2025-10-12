@@ -1,33 +1,31 @@
 package projects.bank;
 
-public class AccountTest
-{
-    // TODO reformat with JUnit 
-    public static void main(String[] args)
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+public class AccountTest {
+
+    @Test
+    void testDataValidation()
     {
-        // Initialize test Accounts
-        Account checkingAcct = new Account(
-            "JohnDoeChecking",
-            "John Doe",
-            1000.00,
-            AccountType.CHECKING
+        Exception e = assertThrows(
+            IllegalArgumentException.class,
+            () -> {new Account(null, "name", 0.0, AccountType.CHECKING);}
         );
-        Account savingsAcct = new Account(
-            "JaneDoeSavings",
-            "Jane Doe",
-            1000.00,
-            AccountType.SAVINGS
+        assertEquals("New Account's id value must not be null.", e.getMessage());
+
+        e = assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+                new Account("id", null, 0.0, AccountType.CHECKING);}
         );
+        assertEquals("New Account's ownerName value must not be null.", e.getMessage());
 
-        // Test accessor methods
-        System.out.println(checkingAcct.getID()); // Should print "0"
-        System.out.println(savingsAcct.getOwnerName()); // Should print "Jane Doe"
-        System.out.println(checkingAcct.getBalance()); // Should print "4598.05"
-        System.out.println(checkingAcct.getAccountType()); // Should print "CHECKING"
-        System.out.println(savingsAcct.getAccountType()); // Should print "SAVINGS"
-
-        // Test equals() method
-        System.out.println(checkingAcct.equals(checkingAcct)); // Should print "true"
-        System.out.println(checkingAcct.equals(savingsAcct)); // Should print "false"
+        e = assertThrows(
+            IllegalArgumentException.class,
+            () -> {new Account("id", "Owner Name", 0.0, null);}
+        );
+        assertEquals("New Account's accountType value must not be null.", e.getMessage());
     }
 }

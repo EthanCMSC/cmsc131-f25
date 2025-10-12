@@ -1,43 +1,108 @@
 package projects.bank;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 public class BankTest
 {
+    private Bank bank;
+    private Account acct;
 
-    // TODO reformat to junit guidelines
-
-    public static void main(String[] args)
+    @BeforeEach
+    void setup()
     {
-        // Create Bank object
-        Bank bank = new Bank();
-        
-        // Test add() method (success w/o overflow)
-        System.out.println(bank.add(new Account("JohnDoeChecking", "John Doe", 1000.00, AccountType.CHECKING))); // Should print "true"
-        System.out.println(bank.add(new Account("JaneDoeSavings", "Jane Doe", 1000.00, AccountType.SAVINGS))); // Should print "true"
-        
-        // Test add() method (failure)
-        System.out.println(bank.add(new Account("JohnDoeChecking", "Fake Name", 1000.00, AccountType.CHECKING))); // Should print "false"
-        
-        // Test find() method (success)
-        System.out.println(bank.find("JohnDoeChecking")); // Should print "0"
-        System.out.println(bank.find("JaneDoeSavings")); // Should print "1"
-        
-        // Test add() method (success w/ overflow)
-        for (int i = 0; i < 98; i ++)
-        {
-            bank.add(new Account("placeholder" + i, "placeholder", 0.00, AccountType.CHECKING)); // Add placeholder accounts until there are 100 accounts in the bank
-        }
-        System.out.println(bank.add(new Account("overflowtest", "Overflow test", 0.00, AccountType.CHECKING))); // Should print "true"
+        bank = new Bank();
+        acct = new Account("id0", "Owner Name", 1.0, AccountType.SAVINGS);
+    }
 
-        // Test find() method (failure)
-        System.out.println(bank.find("JaneDoeChecking")); // Should print "-1"
-        System.out.println(bank.find("JohnDoeSavings")); // Should print "-1"
-        
-        // Test getCount() method
-        System.out.println(bank.getCount()); // Should print "101"
-        
-        // Test equals() method
-        Bank different = new Bank();
-        System.out.println(bank.equals(bank)); // Should print "true"
-        System.out.println(bank.equals(different)); // Should print "false"
+    // tests for add method
+
+    @Test
+    void testAddDataValidation()
+    {
+        Exception e = assertThrows(
+            IllegalArgumentException.class,
+            () -> {bank.add(null);}
+        );
+        assertEquals("New Account must not be null.", e.getMessage());
+    }
+
+    @Test
+    void testAddAccount() {
+        // add account that's absent from bank's accounts
+        boolean addAccountResult = bank.add(acct);
+        assertEquals(
+            true,
+            addAccountResult,
+            "bank.add should return true"
+        );
+        assertEquals(
+            1,
+            bank.getCount(),
+            "bank.getCount should be 1"
+        );
+
+        // add account that's present in bank's accounts (no effect)
+        addAccountResult = bank.add(acct);
+        assertEquals(
+            false,
+            addAccountResult,
+            "bank.add should return false"
+        );
+        assertEquals(
+            1,
+            bank.getCount(),
+            "bank.getCount should still be 1"
+        );
+    }
+
+    @Test
+    void testAddAccountOverflow() {
+        for (int i = 0; i <= 100; i ++) {
+            Integer id = i;
+            bank.add(
+                new Account(
+                    id.toString(),
+                    "Owner Name",
+                    1.0,
+                    AccountType.CHECKING
+                )
+            );
+        }
+
+        // also serves as a test for getCount
+        assertEquals(
+            101,
+            bank.getCount(),
+            "bank should hold 101 accounts"
+        );
+    }
+
+    // tests for find method
+
+    @Test
+    void testFindDataValidation() {
+        Exception e = assertThrows(
+            IllegalArgumentException.class,
+            () -> {bank.find(null);}
+        );
+        assertEquals("Target Account's ID must not be null.", e.getMessage());
+    }
+
+    @Test
+    void testFind() {
+        bank.add(acct);
+        assertEquals(
+            0,
+            bank.find(acct.getID()),
+            "acct should be at index 0"
+        );
+        assertEquals(
+            -1,
+            bank.find("id1"),
+            "result should be -1 when finding absent account"
+        );
     }
 }

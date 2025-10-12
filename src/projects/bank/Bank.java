@@ -4,11 +4,13 @@ public class Bank
 {
     // Instance variables
     private Account[] accounts;
+    private int numberOfAccounts;
 
     // Constructors
     public Bank()
     {
         this.accounts = new Account[100];
+        this.numberOfAccounts = 0;
     }
 
     // Instance methods
@@ -19,32 +21,38 @@ public class Bank
      */
     public boolean add(Account newAcct)
     {
-        // Check if account ID is unique
-        if (this.find(newAcct.getID()) == -1)
+        // Check that passed account is not null
+        if (newAcct != null)
         {
-            for (int i = 0; i < accounts.length; i ++)
+            // Check if account ID is unique
+            if (this.find(newAcct.getID()) == -1)
             {
-                // Add account to current array if free slot exists
-                if (accounts[i] == null)
+                int arrSizeIncrement = 100; // Increase size of accounts array by this value every overflow
+
+                // Copy accounts to larger array if overflow occurs
+                if (numberOfAccounts % arrSizeIncrement != 0)
                 {
-                    accounts[i] = newAcct;
-                    return true;
+                    Account[] temp = new Account[this.accounts.length + arrSizeIncrement];
+                    for (int i = 0; i < this.accounts.length; i ++)
+                    {
+                        temp[i] = this.accounts[i];
+                    }
+                    this.accounts = temp;
                 }
+                // Add account to array
+                accounts[numberOfAccounts] = newAcct;
+                numberOfAccounts ++;
+                return true;
             }
-            // Copy accounts to larger array and add new account there if overflow occurs
-            Account[] temp = new Account[this.accounts.length + 100];
-            for (int i = 0; i < this.accounts.length; i ++)
+            else
             {
-                temp[i] = this.accounts[i];
+                // Return false if account ID is not unique
+                return false;
             }
-            temp[this.accounts.length] = newAcct;
-            this.accounts = temp;
-            return true;
         }
         else
         {
-            // Return false if account ID is not unique
-            return false;
+            throw new IllegalArgumentException("New Account must not be null.");
         }
     }
 
@@ -55,40 +63,34 @@ public class Bank
      */
     public int find(String acctID)
     {
-        // Iterate through existing accounts
-        // TODO consider using a numberOfAccounts attribute to simplify the conditional
-        for (int i = 0; i < this.accounts.length; i ++)
+        if (acctID != null)
         {
-            // Return account if ID matches
-            if (this.accounts[i] != null
-            &&  this.accounts[i].getID().equals(acctID))
+            // Iterate through existing accounts
+            for (int i = 0; i < this.numberOfAccounts; i ++)
             {
-                return i;
+                // Return account if ID matches
+                if (this.accounts[i] != null
+                &&  this.accounts[i].getID().equals(acctID))
+                {
+                    return i;
+                }
             }
+            // Return -1 if account was not found
+            return -1;
         }
-        // Return -1 if account was not found
-        return -1;
+        else
+        {
+            throw new IllegalArgumentException("Target Account's ID must not be null.");
+        }
     }
 
     /**
      * Returns the number of accounts in the bank
      * @return - int equal to number of accounts in bank
      */
-    // TODO reconsider the logic of this method
-    // instead, you could maintain the number of accounts as an attribute
-    // that gets incremented each time `add` is successful
-    // bonus: you can then use it to find the slot for the next account to add
-     public int getCount()
+    public int getCount()
     {
-        for (int i = 0; i < this.accounts.length; i ++)
-        {
-            if (this.accounts[i] == null)
-            {
-                return i;
-            }
-        }
-
-        return this.accounts.length;
+        return this.numberOfAccounts;
     }
 
     /**
