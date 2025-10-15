@@ -4,14 +4,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main
+{
+    
+    public static void main(String[] args)
+    {
         phase1();
+        phase2();
     }
 
-    public static void phase1() {
-        String logName = "phase1.log";
-        try {
+    public static void phase1()
+    {
+        String logName = "data/phase1.log";
+        try
+        {
             FileWriter writer = new FileWriter(new File(logName));
 
             Account acct = new Account(
@@ -56,7 +62,24 @@ public class Main {
             );
 
             writer.close();
-        } catch (IOException e) { e.printStackTrace(); }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
+    }
+
+    public static void phase2()
+    {
+        String accountsFilename = "data/accounts.csv";
+        Bank bank = new Bank();
+        boolean result = bank.loadAccounts(accountsFilename);
+
+        System.out.println("Result of loading account: " + result);
+        System.out.println("Number of accounts: " + bank.getCount());
+
+        String outputFilename = "data/phase2.csv";
+        bank.writeAccounts(outputFilename);
     }
 }

@@ -20,32 +20,52 @@ public class Account {
         String ownerName,
         double balance,
         AccountType accountType
-    ) {
-        // Ensure no null values are present
-        if (id != null
-        &&  ownerName != null
-        &&  accountType != null
         ) {
-            this.id = id;
-            this.ownerName = ownerName;
-            this.balance = balance;
-            this.accountType = accountType;
+            // Ensure no null values are present
+            if (id != null
+            &&  ownerName != null
+            &&  accountType != null
+            ) {
+                this.id = id;
+                this.ownerName = ownerName;
+                this.balance = balance;
+                this.accountType = accountType;
+            }
+            // Throw error if null value is found
+            else if (id == null)
+            {
+                throw new IllegalArgumentException("New Account's id value must not be null.");
+            }
+            else if (ownerName == null)
+            {
+                throw new IllegalArgumentException("New Account's ownerName value must not be null.");
+            }
+            else if (accountType == null)
+            {
+                throw new IllegalArgumentException("New Account's accountType value must not be null.");
+            }
         }
-        // Throw error if null value is found
-        else if (id == null)
+        
+    /**
+     * Factory method for constructing an Account object from a CSV line.
+     * @param inputLine Eg, "wz240833,Anna Gomez,8111.00,savings"
+     * @return - new Account from supplied values.
+     * @throws {@code IllegalArgumentException} if null {@code input} is null.
+     */
+    public static Account make(String inputLine)
+    {
+        if (inputLine == null)
         {
-            throw new IllegalArgumentException("New Account's id value must not be null.");
+            throw new IllegalArgumentException("inputLine cannot be null");
         }
-        else if (ownerName == null)
-        {
-            throw new IllegalArgumentException("New Account's ownerName value must not be null.");
-        }
-        else if (accountType == null)
-        {
-            throw new IllegalArgumentException("New Account's accountType value must not be null.");
-        }
+        String[] tokens = inputLine.split(",");
+        String id = tokens[0];
+        String ownerName = tokens[1];
+        double balance = (double) Double.valueOf(tokens[2]);
+        AccountType type = AccountType.valueOf(tokens[3].toUpperCase());
+        return new Account(id, ownerName, balance, type);
     }
-
+    
     /**
      * ID Accessor
      * @return - Account ID String
@@ -82,6 +102,28 @@ public class Account {
         return this.accountType;
     }
 
+
+    @Override 
+    public String toString()
+    {
+        return String.format(
+            "%s,%s,%.2f,%s", // format double to 2 decimal places
+            getID(),
+            getOwnerName(),
+            getBalance(),
+            getAccountType().name().toLowerCase()
+        );
+    }
+
+    /**
+     * CSV line holding this account's data.
+     * @return Eg, "wz240833,Anna Gomez,8111.00,savings"
+     */
+    public String toCSV()
+    {
+        return this.toString();
+    }
+
     /**
      * Compares two Account objects; returns true if their data is the same
      * @param other - Account to compare with
@@ -96,7 +138,8 @@ public class Account {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return java.util.Objects.hash(this.id, this.ownerName, this.balance, this.accountType);
     }
 }
