@@ -12,35 +12,27 @@ public class AccountTest
     @BeforeEach
     void setupAccount()
     {
-        account = new Account(
+        account = new SavingsAccount(
             "wz240833",
             "Anna Gomez",
-            8111.00,
-            AccountType.SAVINGS
+            8111.00
         );
     }
 
     @Test
-    void testDataValidation()
+    void testAddDataValidation()
     {
         Exception e = assertThrows(
             IllegalArgumentException.class,
-            () -> {new Account(null, "name", 0.0, AccountType.CHECKING);}
+            () -> {new CheckingAccount(null, "name", 0.0);}
         );
         assertEquals("New Account's id value must not be null.", e.getMessage());
 
         e = assertThrows(
             IllegalArgumentException.class,
-            () -> {
-                new Account("id", null, 0.0, AccountType.CHECKING);}
+            () -> {new CheckingAccount("id", null, 0.0);}
         );
         assertEquals("New Account's ownerName value must not be null.", e.getMessage());
-
-        e = assertThrows(
-            IllegalArgumentException.class,
-            () -> {new Account("id", "Owner Name", 0.0, null);}
-        );
-        assertEquals("New Account's accountType value must not be null.", e.getMessage());
     }
 
     @Test
@@ -60,7 +52,7 @@ public class AccountTest
     void testMakePreservesData()
     {
         Account account2 = Account.make(
-            "savings,wz240833,Anna Gomez,8111.00"
+            "wz240833,Anna Gomez,8111.00,savings"
         );
         assertEquals(
             account.getID(),
@@ -85,7 +77,7 @@ public class AccountTest
     void testToCSV()
     {
         assertEquals(
-            "savings,wz240833,Anna Gomez,8111.00",
+            "wz240833,Anna Gomez,8111.00,savings",
             account.toCSV()
         );
     }

@@ -13,6 +13,9 @@ public class Bank
     private int numberOfAccounts;
 
     // Constructors
+    /**
+     * {@code Bank} constructor
+     */
     public Bank()
     {
         this.accounts = new Account[100];
@@ -23,7 +26,7 @@ public class Bank
     /**
      * Adds a new account to bank. New account's ID must be unique. Returns true if successful; returns false otherwise.
      * @param newAcct - The new Account to add
-     * @return - {@code true} if account was successfully added; false otherwise
+     * @return {@code true} if account was successfully added; {@code false} otherwise
      */
     public boolean add(Account newAcct)
     {
@@ -65,7 +68,7 @@ public class Bank
     /**
      * Returns the index of a specified account by its ID if it exists.
      * @param acctID - The ID of the account to search for
-     * @return - Account's index in accounts array if it exists; -1 otherwise
+     * @return Account's index in {@code accounts} array if it exists; {@code -1} otherwise
      */
     public int find(String acctID)
     {
@@ -92,7 +95,7 @@ public class Bank
 
     /**
      * Returns the number of accounts in the bank
-     * @return - int equal to number of accounts in bank
+     * @return {@code int} equal to number of accounts in bank
      */
     public int getCount()
     {
@@ -104,21 +107,25 @@ public class Bank
      * 
      * Assumes each row follows the format savings,wz240833,Anna Gomez,8111.00
      * @param filename - Name of source CSV file.
-     * @return - {@code true} if and only if the operation is successful
+     * @return {@code true} if and only if the operation is successful
      */
     public boolean loadAccounts(String filename) {
         boolean result = true;
         File inputFile = new File(filename);
         Scanner scan;
-        try {
+        try
+        {
             scan = new Scanner(inputFile);
-            while (scan.hasNextLine()) {
+            while (scan.hasNextLine())
+            {
                 String csvString = scan.nextLine();
                 Account account = Account.make(csvString);
                 add(account);
             }
             scan.close();
-        } catch(FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             e.printStackTrace();
             result = false;
         }
@@ -153,9 +160,44 @@ public class Bank
     }
 
     /**
+     * Executes all transactions in transactions CSV file.
+     * @param filename - The name of the CSV file holding saved transactions.
+     * @return {@code true} if successful.
+     * @throws NullPointerException if {@code null} value is found in CSV file
+     */
+    public boolean processTransactions(String filename)
+    {
+        
+        boolean result = true;
+        File inputFile = new File(filename);
+        Scanner scan;
+        try
+        {
+            scan = new Scanner(inputFile);
+            while (scan.hasNextLine())
+            {
+                String csvString = scan.nextLine();
+                Transaction trs = Transaction.make(csvString);
+                Account acct = this.accounts[this.find(trs.getAccountID())];
+                if (trs.validate(acct))
+                {
+                    trs.execute(acct);
+                }
+            }
+            scan.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            result = false;
+        }
+        return result;
+    }
+
+    /**
      * Compares two Bank objects; returns true if their data is the same
      * @param other - Bank to compare with
-     * @return - {@code true} if Banks' data match; {@code false} otherwise
+     * @return {@code true} if Banks' data match; {@code false} otherwise
      */
     public boolean equals(Bank other)
     {

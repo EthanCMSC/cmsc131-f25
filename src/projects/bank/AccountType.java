@@ -1,6 +1,7 @@
 package projects.bank;
 
-public enum AccountType {
+public enum AccountType
+{
     CHECKING,
     SAVINGS
 }

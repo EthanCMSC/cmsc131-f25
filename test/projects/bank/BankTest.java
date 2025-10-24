@@ -14,7 +14,7 @@ public class BankTest
     void setup()
     {
         bank = new Bank();
-        acct = new Account("id0", "Owner Name", 1.0, AccountType.SAVINGS);
+        acct = new SavingsAccount("id0", "Owner Name", 1.0);
     }
 
     // tests for add method
@@ -63,11 +63,10 @@ public class BankTest
         for (int i = 0; i <= 100; i ++) {
             Integer id = i;
             bank.add(
-                new Account(
+                new CheckingAccount(
                     id.toString(),
                     "Owner Name",
-                    1.0,
-                    AccountType.CHECKING
+                    1.0
                 )
             );
         }

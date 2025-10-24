@@ -1,19 +1,20 @@
 package projects.bank;
 
-public class Account {
-
+public abstract class Account
+{
     // Instance variables
     private String id;
     private String ownerName;
     private double balance;
     private AccountType accountType;
 
+    // Constructors
     /**
-     * Account Constructor
-     * @param id - The ID String that distinguishes the Account from other Account instances. Must be unique.
+     * {@code Account} constructor
+     * @param id - The ID String that distinguishes the account from other {@code Account} instances. Must be unique.
      * @param ownerName - The name of the account's owner.
-     * @param balance - The current balance in the Account.
-     * @param accountType - Whether the Account is a checking or savings account.
+     * @param balance - The current balance in the account.
+     * @param accountType - Whether the account is a checking or savings account.
      */
     public Account (
         String id,
@@ -45,12 +46,13 @@ public class Account {
                 throw new IllegalArgumentException("New Account's accountType value must not be null.");
             }
         }
-        
+    
+    // Static methods
     /**
-     * Factory method for constructing an Account object from a CSV line.
-     * @param inputLine Eg, "wz240833,Anna Gomez,8111.00,savings"
-     * @return - new Account from supplied values.
-     * @throws {@code IllegalArgumentException} if null {@code input} is null.
+     * Factory method for constructing an {@code Account} object from a CSV line.
+     * @param inputLine - Eg, "wz240833,Anna Gomez,8111.00,savings"
+     * @return New {@code Account} from supplied values.
+     * @throws {@code IllegalArgumentException} if {@code inputLine} is {@code null}.
      */
     public static Account make(String inputLine)
     {
@@ -63,12 +65,20 @@ public class Account {
         String ownerName = tokens[1];
         double balance = (double) Double.valueOf(tokens[2]);
         AccountType type = AccountType.valueOf(tokens[3].toUpperCase());
-        return new Account(id, ownerName, balance, type);
+        if (type == AccountType.CHECKING)
+        {
+            return new CheckingAccount(id, ownerName, balance);
+        }
+        else
+        {
+            return new SavingsAccount(id, ownerName, balance);
+        }
     }
     
+    // Instance methods
     /**
-     * ID Accessor
-     * @return - Account ID String
+     * ID accessor
+     * @return Account's ID String
      */
     public String getID()
     {
@@ -76,8 +86,8 @@ public class Account {
     }
 
     /**
-     * Owner Name Accessor
-     * @return - Name of Account's owner
+     * Owner name accessor
+     * @return Name of Account's owner
      */
     public String getOwnerName()
     {
@@ -85,8 +95,8 @@ public class Account {
     }
 
     /**
-     * Balance Accessor
-     * @return - Current Account balance
+     * Balance accessor
+     * @return Account's current balance
      */
     public double getBalance()
     {
@@ -94,29 +104,61 @@ public class Account {
     }
 
     /**
-     * Account Type Accessor
-     * @return - AccountType CHECKING or SAVINGS
+     * Account type accessor
+     * @return Account's {@code AccountType} value (should be either {@code AccountType.CHECKING} or {@code AccountType.SAVINGS})
      */
     public AccountType getAccountType()
     {
         return this.accountType;
     }
 
+    /**
+     * Adds a sum of money to account balance. Returns {@code true} if successful.
+     * @param amount - Amount of money to credit to account.
+     * @return {@code true} if successful.
+     */
+    public boolean credit(double amount)
+    {
+        this.balance += checkFormat(amount);
+        return true;
+    }
+
+    /**
+     * Removes a sum of money from account balance. Returns {@code true} if successful.
+     * @param amount - Amount of money to debit from account.
+     * @return {@code true} if successful.
+     */
+    public boolean debit(double amount)
+    {
+        this.balance -= checkFormat(amount);
+        return true;
+    }
+
+    /**
+     * Formats a {@code double} to at most two decimal places.
+     * @param value - The {@code double} value to format.
+     * @return Passed {@code double} value, formatted to at most two decimal places.
+     */
+    protected double checkFormat(double value)
+    {
+        String str = String.format("%.2f", value);
+        return Double.valueOf(str);
+    }
 
     @Override 
     public String toString()
     {
         return String.format(
             "%s,%s,%.2f,%s", // format double to 2 decimal places
-            getID(),
-            getOwnerName(),
-            getBalance(),
-            getAccountType().name().toLowerCase()
+            this.getID(),
+            this.getOwnerName(),
+            this.getBalance(),
+            this.getAccountType().name().toLowerCase()
         );
     }
 
     /**
-     * CSV line holding this account's data.
+     * Returns a CSV line holding this {@code Account}'s data.
      * @return Eg, "wz240833,Anna Gomez,8111.00,savings"
      */
     public String toCSV()
@@ -127,7 +169,7 @@ public class Account {
     /**
      * Compares two Account objects; returns true if their data is the same
      * @param other - Account to compare with
-     * @return - true if Accounts' data match; false otherwise
+     * @return {@code true} if Accounts' data match; {@code false} otherwise
      */
     public boolean equals(Account other)
     {
