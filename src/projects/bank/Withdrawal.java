@@ -26,9 +26,17 @@ public class Withdrawal extends Transaction
      */
     public boolean execute(Account acct)
     {
-        if (this.validate(acct))
+        if (acct != null)
         {
-            return acct.debit(this.getAmount());
+            if (this.validate(acct))
+            {
+                acct.debit(this.getAmount());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {

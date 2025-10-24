@@ -1,15 +1,3 @@
-/** TODO list
- * 
- * add testProcessTransactions
- *     check failure 
- *         check return value of processTransactions
- *     check success
- *         setup one account in bank
- *         setup one deposit and one withdrawal
- *         have the deposit and withdrawal successfully execute
- *         check return value of processTransactions
- * 
- */
 package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +14,7 @@ public class BankTest
     void setup()
     {
         bank = new Bank();
-        acct = new SavingsAccount("id0", "Owner Name", 1.0);
+        acct = new SavingsAccount("id0", "Owner Name", 1000.0);
     }
 
     // tests for add method
@@ -114,6 +102,28 @@ public class BankTest
             -1,
             bank.find("id1"),
             "result should be -1 when finding absent account"
+        );
+    }
+
+    @Test
+    void testProcessTransactions()
+    {
+        assertEquals(
+            bank.processTransactions(null),
+            false
+        );
+        
+        bank.add(acct);
+
+        Deposit dpst = new Deposit("id0", 250.00);
+        Withdrawal wtdl = new Withdrawal("id0", 250.00);
+
+        dpst.execute(acct);
+        wtdl.execute(acct);
+
+        assertEquals(
+            bank.processTransactions("data/transactions.csv"),
+            true
         );
     }
 }

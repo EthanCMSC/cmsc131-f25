@@ -27,7 +27,8 @@ public class Deposit extends Transaction
     {
         if (acct != null)
         {
-            return acct.credit(this.getAmount());
+            acct.credit(this.getAmount());
+            return true;
         }
         else
         {

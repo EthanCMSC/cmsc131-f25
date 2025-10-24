@@ -8,17 +8,6 @@
  * 
  * find method
  *     unnecessary to check for accounts[i] being null, because your index i cannot exceed numberOfAccounts
- * 
- * braces {} style
- *     commit to a style and use it consistently
- *     function() {
- *         ...
- *     }
- *     or
- *     function()
- *     {
- *         ....
- *     }
  */
 package projects.bank;
 
@@ -131,7 +120,8 @@ public class Bank
      * @param filename - Name of source CSV file.
      * @return {@code true} if and only if the operation is successful
      */
-    public boolean loadAccounts(String filename) {
+    public boolean loadAccounts(String filename)
+    {
         File inputFile = new File(filename);
         Scanner scan;
         try
@@ -188,11 +178,10 @@ public class Bank
      */
     public boolean processTransactions(String filename)
     {
-        File inputFile = new File(filename);
-        Scanner scan;
         try
         {
-            scan = new Scanner(inputFile);
+            File inputFile = new File(filename);
+            Scanner scan = new Scanner(inputFile);
             while (scan.hasNextLine())
             {
                 String csvString = scan.nextLine();
@@ -206,7 +195,7 @@ public class Bank
             scan.close();
             return true;
         }
-        catch (FileNotFoundException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return false;
@@ -239,7 +228,8 @@ public class Bank
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return java.util.Objects.hash(this.accounts);
     }
 }

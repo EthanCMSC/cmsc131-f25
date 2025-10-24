@@ -1,8 +1,3 @@
-/** TODO list
- * add testCredit and testDebit
- *     call account.credit(some amount) and verify balance change
- *     then call account.debit and verify balance change
- */
 package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +15,7 @@ public class AccountTest
         account = new SavingsAccount(
             "wz240833",
             "Anna Gomez",
-            8111.00
+            1000.00
         );
     }
 
@@ -41,6 +36,28 @@ public class AccountTest
     }
 
     @Test
+    void testCredit()
+    {
+        account.credit(250.00);
+        
+        assertEquals(
+            account.getBalance(),
+            1250.00
+        );
+    }
+
+    @Test
+    void testDebit()
+    {
+        account.debit(250.00);
+        
+        assertEquals(
+            account.getBalance(),
+            750.00
+        );
+    }
+
+    @Test
     void testMakeThrowsOnNullInput()
     {
         Exception exception = assertThrows(
@@ -57,7 +74,7 @@ public class AccountTest
     void testMakePreservesData()
     {
         Account account2 = Account.make(
-            "wz240833,Anna Gomez,8111.00,savings"
+            "wz240833,Anna Gomez,1000.00,savings"
         );
         assertEquals(
             account.getID(),
@@ -82,7 +99,7 @@ public class AccountTest
     void testToCSV()
     {
         assertEquals(
-            "wz240833,Anna Gomez,8111.00,savings",
+            "wz240833,Anna Gomez,1000.00,savings",
             account.toCSV()
         );
     }

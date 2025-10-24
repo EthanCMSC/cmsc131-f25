@@ -1,15 +1,3 @@
-/** TODO list
- * testAddDataValidation
- *     only need to test `new Deposit`
- *     because data validation logic lives in Transaction
- * add testValidate
- *     check validation for Deposit and Withdrawal
- *         because they each define their own validate method
- *         (compare to my comment about data validation in Transaction superclass)
- * add testExecute
- *     check execution for Deposit and Withdrawal
- *         the logic is similar to testCredit and testDebit
- */
 package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,17 +9,29 @@ public class TransactionTest
 {
     private Deposit dpst;
     private Withdrawal wtdl;
+    private CheckingAccount acct1;
+    private CheckingAccount acct2;
 
     @BeforeEach
     void setup()
     {
         dpst = new Deposit(
             "id0",
-            0.50
+            250.00
         );
         wtdl = new Withdrawal(
             "id0",
-            0.50
+            250.00
+        );
+        acct1 = new CheckingAccount(
+            "id0",
+            "Owner Name",
+            1000.00
+        );
+        acct2 = new CheckingAccount(
+            "id1",
+            "Owner Name",
+            100.00
         );
     }
 
@@ -43,12 +43,71 @@ public class TransactionTest
             () -> {new Deposit(null, 0.0);}
         );
         assertEquals("New Transaction's accountID value must not be null.", e.getMessage());
-        
-        e = assertThrows(
-            IllegalArgumentException.class,
-            () -> {new Withdrawal(null, 0.0);}
+    }
+
+    @Test
+    void testValidate()
+    {
+        assertEquals(
+            dpst.validate(acct1),
+            true
         );
-        assertEquals("New Transaction's accountID value must not be null.", e.getMessage());
+        assertEquals(
+            wtdl.validate(acct1),
+            true
+        );
+        assertEquals(
+            wtdl.validate(acct2),
+            false
+        );
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {dpst.validate(null);}
+        );
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {wtdl.validate(null);}
+        );
+    }
+
+    @Test
+    void testExecute()
+    {
+        assertEquals(
+            dpst.execute(acct1),
+            true
+        );
+        assertEquals(
+            acct1.getBalance(),
+            1250.00
+        );
+
+        assertEquals(
+            wtdl.execute(acct1),
+            true
+        );
+        assertEquals(
+            acct1.getBalance(),
+            1000.00
+        );
+
+        assertEquals(
+            wtdl.execute(acct2),
+            false
+        );
+        assertEquals(
+            acct2.getBalance(),
+            100.00
+        );
+
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {dpst.execute(null);}
+        );
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> {wtdl.execute(null);}
+        );
     }
 
     @Test
@@ -68,7 +127,7 @@ public class TransactionTest
     void testMakePreservesData()
     {
         Transaction dpst2 = Transaction.make(
-            "id0,0.50,deposit"
+            "id0,250.00,deposit"
         );
         assertEquals(
             dpst.getAccountID(),
@@ -78,7 +137,7 @@ public class TransactionTest
             dpst.getAmount(),
             dpst2.getAmount(),
             1e-2
-            );
+        );
         assertEquals(
             dpst.getTransactionType(),
             dpst2.getTransactionType()
@@ -89,7 +148,7 @@ public class TransactionTest
     void testToCSV()
     {
         assertEquals(
-            "id0,0.50,deposit",
+            "id0,250.00,deposit",
             dpst.toCSV()
         );
     }
