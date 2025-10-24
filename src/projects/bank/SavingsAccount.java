@@ -1,5 +1,10 @@
 package projects.bank;
 
+/** TODO list
+ * remove account type from call to superclass constructor
+ * override abstract getType method from Account class
+ */
+
 public class SavingsAccount extends Account
 {
     // Constructors

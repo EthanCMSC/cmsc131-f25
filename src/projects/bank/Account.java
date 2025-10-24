@@ -1,5 +1,13 @@
 package projects.bank;
 
+/** TODO list
+ * remove accountType from class attributes
+ * remove accountTYpe from constructor
+ *     javadoc, arguments, body
+ * remove accountType from toString
+ * make getAccountType abstract, implement in subclasses
+ */
+
 public abstract class Account
 {
     // Instance variables
