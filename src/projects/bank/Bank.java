@@ -1,3 +1,25 @@
+/** TODO list
+ * 
+ * add method
+ *     unnecessary to check for newAcct being null
+ *         none of the ways to create an account (constructor, make) can return null
+ *     move arrSizeIncrement = 100 into attributes declaration section
+ *     to detect an overflow, check (numberOfAccount >= accounts.length) instead of (numberOfAccounts % arrSizeIncrement != 0)
+ * 
+ * find method
+ *     unnecessary to check for accounts[i] being null, because your index i cannot exceed numberOfAccounts
+ * 
+ * braces {} style
+ *     commit to a style and use it consistently
+ *     function() {
+ *         ...
+ *     }
+ *     or
+ *     function()
+ *     {
+ *         ....
+ *     }
+ */
 package projects.bank;
 
 import java.io.File;
@@ -110,7 +132,6 @@ public class Bank
      * @return {@code true} if and only if the operation is successful
      */
     public boolean loadAccounts(String filename) {
-        boolean result = true;
         File inputFile = new File(filename);
         Scanner scan;
         try
@@ -123,13 +144,13 @@ public class Bank
                 add(account);
             }
             scan.close();
+            return true;
         }
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-            result = false;
+            return false;
         }
-        return result;
     }
 
     /**
@@ -167,8 +188,6 @@ public class Bank
      */
     public boolean processTransactions(String filename)
     {
-        
-        boolean result = true;
         File inputFile = new File(filename);
         Scanner scan;
         try
@@ -185,13 +204,13 @@ public class Bank
                 }
             }
             scan.close();
+            return true;
         }
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
-            result = false;
+            return false;
         }
-        return result;
     }
 
     /**

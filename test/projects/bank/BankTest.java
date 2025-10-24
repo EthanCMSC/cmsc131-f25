@@ -1,3 +1,15 @@
+/** TODO list
+ * 
+ * add testProcessTransactions
+ *     check failure 
+ *         check return value of processTransactions
+ *     check success
+ *         setup one account in bank
+ *         setup one deposit and one withdrawal
+ *         have the deposit and withdrawal successfully execute
+ *         check return value of processTransactions
+ * 
+ */
 package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
