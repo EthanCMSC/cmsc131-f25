@@ -1,3 +1,8 @@
+/** TODO list
+ * add testCredit and testDebit
+ *     call account.credit(some amount) and verify balance change
+ *     then call account.debit and verify balance change
+ */
 package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
