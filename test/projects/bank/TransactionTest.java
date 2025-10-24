@@ -1,3 +1,15 @@
+/** TODO list
+ * testAddDataValidation
+ *     only need to test `new Deposit`
+ *     because data validation logic lives in Transaction
+ * add testValidate
+ *     check validation for Deposit and Withdrawal
+ *         because they each define their own validate method
+ *         (compare to my comment about data validation in Transaction superclass)
+ * add testExecute
+ *     check execution for Deposit and Withdrawal
+ *         the logic is similar to testCredit and testDebit
+ */
 package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;

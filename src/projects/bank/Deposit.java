@@ -1,3 +1,6 @@
+/** TODO list
+ * see comments for Withdrawal class
+ */
 package projects.bank;
 
 public class Deposit extends Transaction

@@ -1,3 +1,14 @@
+/* TODO list
+ * TransactionType enum only *required* for the make method
+ *     ok to remove transactionType from attributes and constructor
+ *     if you remove, remember to also remove getTransactionType method 
+ * your data/transactions.csv is empty, download it from blackboard or copy-paste it from the class repo
+ */
+
+ /* compliments
+  * it's smart to check for amount < 0 in the constructor
+  * great javadocs all around
+  */
 package projects.bank;
 
 public abstract class Transaction

@@ -1,3 +1,12 @@
+/** TODO list
+ * remove transaction type from call to Transaction constructor
+ * unnecessary to check whether acct is null in validate. so, remove that logic and just return acct.getbalance() >= getAmount()
+ * don't have execute throw an exception. we don't want the simulation to crash if the transaction is blocked from executing
+ */
+
+ /** compliments
+  * you put the validation logic into the execute method. because of this, your Withdrawal method has a "conscience" in some sense. that's a nice design choice, andit'll also make  your bank's processTransactions code simpler.
+  */
 package projects.bank;
 
 public class Withdrawal extends Transaction
