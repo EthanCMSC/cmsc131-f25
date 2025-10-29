@@ -1,14 +1,3 @@
-/** TODO list
- * 
- * add method
- *     unnecessary to check for newAcct being null
- *         none of the ways to create an account (constructor, make) can return null
- *     move arrSizeIncrement = 100 into attributes declaration section
- *     to detect an overflow, check (numberOfAccount >= accounts.length) instead of (numberOfAccounts % arrSizeIncrement != 0)
- * 
- * find method
- *     unnecessary to check for accounts[i] being null, because your index i cannot exceed numberOfAccounts
- */
 package projects.bank;
 
 import java.io.File;
@@ -22,6 +11,9 @@ public class Bank
     // Instance variables
     private Account[] accounts;
     private int numberOfAccounts;
+    
+    // Static variables
+    private static int arrSizeIncrement = 100; // Increase size of accounts array by this value every overflow
 
     // Constructors
     /**
@@ -47,10 +39,8 @@ public class Bank
             // Check if account ID is unique
             if (this.find(newAcct.getID()) == -1)
             {
-                int arrSizeIncrement = 100; // Increase size of accounts array by this value every overflow
-
                 // Copy accounts to larger array if overflow occurs
-                if (numberOfAccounts % arrSizeIncrement != 0)
+                if (this.numberOfAccounts >= this.accounts.length)
                 {
                     Account[] temp = new Account[this.accounts.length + arrSizeIncrement];
                     for (int i = 0; i < this.accounts.length; i ++)
@@ -83,25 +73,18 @@ public class Bank
      */
     public int find(String acctID)
     {
-        if (acctID != null)
+        // Iterate through existing accounts
+        for (int i = 0; i < this.numberOfAccounts; i ++)
         {
-            // Iterate through existing accounts
-            for (int i = 0; i < this.numberOfAccounts; i ++)
+            // Return account if ID matches
+            if (this.accounts[i] != null
+            &&  this.accounts[i].getID().equals(acctID))
             {
-                // Return account if ID matches
-                if (this.accounts[i] != null
-                &&  this.accounts[i].getID().equals(acctID))
-                {
-                    return i;
-                }
+                return i;
             }
-            // Return -1 if account was not found
-            return -1;
         }
-        else
-        {
-            throw new IllegalArgumentException("Target Account's ID must not be null.");
-        }
+        // Return -1 if account was not found
+        return -1;
     }
 
     /**

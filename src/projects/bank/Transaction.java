@@ -1,14 +1,3 @@
-/* TODO list
- * TransactionType enum only *required* for the make method
- *     ok to remove transactionType from attributes and constructor
- *     if you remove, remember to also remove getTransactionType method 
- * your data/transactions.csv is empty, download it from blackboard or copy-paste it from the class repo
- */
-
- /* compliments
-  * it's smart to check for amount < 0 in the constructor
-  * great javadocs all around
-  */
 package projects.bank;
 
 public abstract class Transaction
@@ -16,16 +5,14 @@ public abstract class Transaction
     // Instance variables
     private String accountID;
     private double amount;
-    private TransactionType transactionType;
-
+    
     // Constructors
     /**
      * {@code Transaction} constructor
      * @param accountID - The ID of the transaction's target account
      * @param amount - The amount of money that should be deposited or withdrawn
-     * @param transactionType - Whether the transaction is a deposit or withdrawal.
      */
-    protected Transaction(String accountID, double amount, TransactionType transactionType)
+    protected Transaction(String accountID, double amount)
     {
         // Ensure no null values are present and transaction amount is not negative
         if (accountID != null
@@ -33,7 +20,6 @@ public abstract class Transaction
         {
             this.accountID = accountID;
             this.amount = amount;
-            this.transactionType = transactionType;
         }
         else if (accountID == null)
         {
@@ -51,6 +37,12 @@ public abstract class Transaction
      * @param account - The Account to execute the Transaction on
      */
     public abstract boolean execute(Account acct);
+
+    /**
+     * Returns a CSV line holding the {@code Transaction}'s data.
+     * @return Eg, "wz240833,8111.00,deposit"
+     */
+    public abstract String toCSV();
     
     /**
      * Confirms that a transaction can be executed.
@@ -80,15 +72,6 @@ public abstract class Transaction
     }
     
     /**
-     * Transaction type accessor
-     * @return Transaction's {@code TransactionType} value (should be either {@code TransactionType.DEPOSIT} or {@code TransactionType.WITHDRAWAL})
-     */
-    public TransactionType getTransactionType()
-    {
-        return this.transactionType;
-    }
-    
-    /**
      * Factory method for constructing an {@code Transaction} object from a CSV line.
      * @param inputLine - Eg, "wz240833,8111.00,deposit"
      * @return New {@code Transaction} from supplied values.
@@ -112,25 +95,5 @@ public abstract class Transaction
         {
             return new Withdrawal(accountID, amount);
         }
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format(
-            "%s,%.2f,%s", // format double to 2 decimal places
-            this.getAccountID(),
-            this.getAmount(),
-            this.getTransactionType().name().toLowerCase()
-        );
-    }
-
-    /**
-     * Returns a CSV line holding this {@code Transaction}'s data.
-     * @return Eg, "wz240833,8111.00,deposit"
-     */
-    public String toCSV()
-    {
-        return this.toString();
     }
 }

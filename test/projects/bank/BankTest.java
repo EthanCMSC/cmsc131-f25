@@ -82,15 +82,6 @@ public class BankTest
     // tests for find method
 
     @Test
-    void testFindDataValidation() {
-        Exception e = assertThrows(
-            IllegalArgumentException.class,
-            () -> {bank.find(null);}
-        );
-        assertEquals("Target Account's ID must not be null.", e.getMessage());
-    }
-
-    @Test
     void testFind() {
         bank.add(acct);
         assertEquals(
@@ -109,8 +100,8 @@ public class BankTest
     void testProcessTransactions()
     {
         assertEquals(
-            bank.processTransactions(null),
-            false
+            false,
+            bank.processTransactions(null)
         );
         
         bank.add(acct);
@@ -122,8 +113,8 @@ public class BankTest
         wtdl.execute(acct);
 
         assertEquals(
-            bank.processTransactions("data/transactions.csv"),
-            true
+            true,
+            bank.processTransactions("data/testtransactions.csv")
         );
     }
 }

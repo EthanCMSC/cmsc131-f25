@@ -1,19 +1,16 @@
-/** TODO list
- * see comments for Withdrawal class
- */
 package projects.bank;
 
 public class Deposit extends Transaction
 {
     // Constructors
     /**
-     * Deposit constructor
-     * @param accountID - The ID of the Account that the Deposit should be executed on
-     * @param amount - The amount of money to deposit to the target Account
+     * {@code Deposit} constructor
+     * @param accountID - The ID of the {@code Account} that the {@code Deposit} should be executed on
+     * @param amount - The amount of money to deposit to the target account
      */
     public Deposit(String accountID, double amount)
     {
-        super(accountID, amount, TransactionType.DEPOSIT);
+        super(accountID, amount);
     }
 
     // Instance methods
@@ -21,18 +18,18 @@ public class Deposit extends Transaction
      * Executes the deposit. Returns {@code true} if successful; returns {@code false} otherwise.
      * @param acct - The account to execute the deposit on
      * @return {@code true} if successful
-     * @throws IllegalArgumentException if passed value is {@code null}
      */
     public boolean execute(Account acct)
     {
-        if (acct != null)
+        if (acct != null
+        &&  this.validate(acct))
         {
             acct.credit(this.getAmount());
             return true;
         }
         else
         {
-            throw new IllegalArgumentException("Deposit.execute() method's acct parameter must not be null.");
+            return false;
         }
     }
 
@@ -40,17 +37,29 @@ public class Deposit extends Transaction
      * Confirms that a deposit can be executed.
      * @param acct - The account that the deposit would be executed on.
      * @return {@code true} if the deposit is safe to execute.
-     * @throws IllegalArgumentException if parameter is {@code null}
      */
     protected boolean validate(Account acct)
     {
-        if (acct != null)
-        {
-            return true;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Deposit.validate() method's acct parameter must not be null.");
-        }
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format(
+            "%s,%.2f,%s",
+            this.getAccountID(),
+            this.getAmount(),
+            TransactionType.DEPOSIT.name().toLowerCase()
+        );
+    }
+
+    /**
+     * Returns a CSV line holding this {@code Deposit}'s data.
+     * @return Eg, "wz240833,8111.00,deposit"
+     */
+    public String toCSV()
+    {
+        return this.toString();
     }
 }

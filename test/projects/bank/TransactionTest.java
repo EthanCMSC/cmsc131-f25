@@ -60,14 +60,6 @@ public class TransactionTest
             wtdl.validate(acct2),
             false
         );
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {dpst.validate(null);}
-        );
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {wtdl.validate(null);}
-        );
     }
 
     @Test
@@ -99,15 +91,6 @@ public class TransactionTest
             acct2.getBalance(),
             100.00
         );
-
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {dpst.execute(null);}
-        );
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {wtdl.execute(null);}
-        );
     }
 
     @Test
@@ -137,10 +120,6 @@ public class TransactionTest
             dpst.getAmount(),
             dpst2.getAmount(),
             1e-2
-        );
-        assertEquals(
-            dpst.getTransactionType(),
-            dpst2.getTransactionType()
         );
     }
 
