@@ -156,11 +156,17 @@ public class Bank
     /**
      * Executes all transactions in transactions CSV file.
      * @param filename - The name of the CSV file holding saved transactions.
-     * @return {@code true} if successful.
-     * @throws NullPointerException if {@code null} value is found in CSV file
+     * @return An {@code int} value equal to the number of transactions processed.
      */
-    public boolean processTransactions(String filename)
+    public int processTransactions(String filename)
     {
+        int transactionsProcessed = 0;
+        
+        if (filename == null)
+        {
+            return -1;
+        }
+
         try
         {
             File inputFile = new File(filename);
@@ -176,13 +182,13 @@ public class Bank
                 }
             }
             scan.close();
-            return true;
         }
-        catch (Exception e)
+        catch (FileNotFoundException e)
         {
             e.printStackTrace();
-            return false;
         }
+
+        return transactionsProcessed;
     }
 
     /**

@@ -8,9 +8,14 @@ public class Deposit extends Transaction
      * @param accountID - The ID of the {@code Account} that the {@code Deposit} should be executed on
      * @param amount - The amount of money to deposit to the target account
      */
-    public Deposit(String accountID, double amount)
-    {
-        super(accountID, amount);
+    public Deposit(
+        String accountID,
+        double amount
+    ) {
+        super(
+            accountID,
+            amount
+        );
     }
 
     // Instance methods
@@ -46,12 +51,7 @@ public class Deposit extends Transaction
     @Override
     public String toString()
     {
-        return String.format(
-            "%s,%.2f,%s",
-            this.getAccountID(),
-            this.getAmount(),
-            TransactionType.DEPOSIT.name().toLowerCase()
-        );
+        return "Deposit of $" + String.format("%.2f", this.getAmount()) + " to account " + this.getAccountID();
     }
 
     /**
@@ -60,6 +60,11 @@ public class Deposit extends Transaction
      */
     public String toCSV()
     {
-        return this.toString();
+        return String.format(
+            "%s,%.2f,%s",
+            this.getAccountID(),
+            this.getAmount(),
+            TransactionType.DEPOSIT.name().toLowerCase()
+        );
     }
 }

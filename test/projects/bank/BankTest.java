@@ -100,20 +100,18 @@ public class BankTest
     void testProcessTransactions()
     {
         assertEquals(
-            false,
+            -1,
             bank.processTransactions(null)
         );
+
+        CheckingAccount acct1 = new CheckingAccount("wz240833", "Test Account", 267.57);
+        SavingsAccount acct2 = new SavingsAccount("hr108256", "Test Account", 297.30);
         
-        bank.add(acct);
+        bank.add(acct1);
+        bank.add(acct2);
 
-        Deposit dpst = new Deposit("id0", 250.00);
-        Withdrawal wtdl = new Withdrawal("id0", 250.00);
-
-        dpst.execute(acct);
-        wtdl.execute(acct);
-
-        assertEquals(
-            true,
+        assertNotEquals(
+            -1,
             bank.processTransactions("data/testtransactions.csv")
         );
     }

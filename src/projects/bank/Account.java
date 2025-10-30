@@ -1,20 +1,11 @@
 package projects.bank;
 
-/** TODO list
- * remove accountType from class attributes
- * remove accountTYpe from constructor
- *     javadoc, arguments, body
- * remove accountType from toString
- * make getAccountType abstract, implement in subclasses
- */
-
 public abstract class Account
 {
     // Instance variables
     private String id;
     private String ownerName;
     private double balance;
-    private AccountType accountType;
 
     // Constructors
     /**
@@ -22,68 +13,39 @@ public abstract class Account
      * @param id - The ID String that distinguishes the account from other {@code Account} instances. Must be unique.
      * @param ownerName - The name of the account's owner.
      * @param balance - The current balance in the account.
-     * @param accountType - Whether the account is a checking or savings account.
      */
     public Account (
         String id,
         String ownerName,
-        double balance,
-        AccountType accountType
+        double balance
+    ) {
+        // Ensure no null values are present
+        if (id != null
+        &&  ownerName != null
         ) {
-            // Ensure no null values are present
-            if (id != null
-            &&  ownerName != null
-            &&  accountType != null
-            ) {
-                this.id = id;
-                this.ownerName = ownerName;
-                this.balance = balance;
-                this.accountType = accountType;
-            }
-            // Throw error if null value is found
-            else if (id == null)
-            {
-                throw new IllegalArgumentException("New Account's id value must not be null.");
-            }
-            else if (ownerName == null)
-            {
-                throw new IllegalArgumentException("New Account's ownerName value must not be null.");
-            }
-            else if (accountType == null)
-            {
-                throw new IllegalArgumentException("New Account's accountType value must not be null.");
-            }
+            this.id = id;
+            this.ownerName = ownerName;
+            this.balance = balance;
         }
-    
-    // Static methods
-    /**
-     * Factory method for constructing an {@code Account} object from a CSV line.
-     * @param inputLine - Eg, "wz240833,Anna Gomez,8111.00,savings"
-     * @return New {@code Account} from supplied values.
-     * @throws {@code IllegalArgumentException} if {@code inputLine} is {@code null}.
-     */
-    public static Account make(String inputLine)
-    {
-        if (inputLine == null)
+        // Throw error if null value is found
+        else if (id == null)
         {
-            throw new IllegalArgumentException("inputLine cannot be null");
+            throw new IllegalArgumentException("New Account's id value must not be null.");
         }
-        String[] tokens = inputLine.split(",");
-        String id = tokens[0];
-        String ownerName = tokens[1];
-        double balance = (double) Double.valueOf(tokens[2]);
-        AccountType type = AccountType.valueOf(tokens[3].toUpperCase());
-        if (type == AccountType.CHECKING)
+        else if (ownerName == null)
         {
-            return new CheckingAccount(id, ownerName, balance);
-        }
-        else
-        {
-            return new SavingsAccount(id, ownerName, balance);
+            throw new IllegalArgumentException("New Account's ownerName value must not be null.");
         }
     }
     
-    // Instance methods
+    // Abstract methods
+    /**
+     * Account type accessor
+     * @return Account's {@code AccountType} value (should be either {@code AccountType.CHECKING} or {@code AccountType.SAVINGS})
+     */
+    public abstract AccountType getAccountType();
+    
+    // Concrete methods
     /**
      * ID accessor
      * @return Account's ID String
@@ -109,15 +71,6 @@ public abstract class Account
     public double getBalance()
     {
         return this.balance;
-    }
-
-    /**
-     * Account type accessor
-     * @return Account's {@code AccountType} value (should be either {@code AccountType.CHECKING} or {@code AccountType.SAVINGS})
-     */
-    public AccountType getAccountType()
-    {
-        return this.accountType;
     }
 
     /**
@@ -157,11 +110,10 @@ public abstract class Account
     public String toString()
     {
         return String.format(
-            "%s,%s,%.2f,%s", // format double to 2 decimal places
+            "%s,%s,%.2f",
             this.getID(),
             this.getOwnerName(),
-            this.getBalance(),
-            this.getAccountType().name().toLowerCase()
+            this.getBalance()
         );
     }
 
@@ -183,13 +135,39 @@ public abstract class Account
     {
         return this.getID().equals(other.getID())
             && this.getOwnerName().equals(other.getOwnerName())
-            && this.getBalance() == other.getBalance()
-            && this.getAccountType() == other.getAccountType();
+            && this.getBalance() == other.getBalance();
     }
 
     @Override
     public int hashCode()
     {
-        return java.util.Objects.hash(this.id, this.ownerName, this.balance, this.accountType);
+        return java.util.Objects.hash(this.id, this.ownerName, this.balance);
+    }
+
+    /**
+     * Factory method for constructing an {@code Account} object from a CSV line.
+     * @param inputLine - Eg, "wz240833,Anna Gomez,8111.00,savings"
+     * @return New {@code Account} from supplied values.
+     * @throws {@code IllegalArgumentException} if {@code inputLine} is {@code null}.
+     */
+    public static Account make(String inputLine)
+    {
+        if (inputLine == null)
+        {
+            throw new IllegalArgumentException("inputLine cannot be null");
+        }
+        String[] tokens = inputLine.split(",");
+        String id = tokens[0];
+        String ownerName = tokens[1];
+        double balance = (double) Double.valueOf(tokens[2]);
+        AccountType type = AccountType.valueOf(tokens[3].toUpperCase());
+        if (type == AccountType.CHECKING)
+        {
+            return new CheckingAccount(id, ownerName, balance);
+        }
+        else
+        {
+            return new SavingsAccount(id, ownerName, balance);
+        }
     }
 }

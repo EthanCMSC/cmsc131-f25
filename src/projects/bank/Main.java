@@ -87,7 +87,7 @@ public class Main
     {
         Bank bank = new Bank();
         bank.loadAccounts("data/accounts.csv"); // ignore output
-        boolean step2 = bank.processTransactions("data/transactions.csv");
+        int step2 = bank.processTransactions("data/transactions.csv");
         boolean step3 = bank.writeAccounts("data/accounts.csv");
         System.out.println("Transactions process: " + step2);
         System.out.println("Accounts write: " + step3);

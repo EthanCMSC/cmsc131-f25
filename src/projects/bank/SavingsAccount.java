@@ -1,10 +1,5 @@
 package projects.bank;
 
-/** TODO list
- * remove account type from call to superclass constructor
- * override abstract getType method from Account class
- */
-
 public class SavingsAccount extends Account
 {
     // Constructors
@@ -14,11 +9,25 @@ public class SavingsAccount extends Account
      * @param ownerName - The name of the account's owner.
      * @param balance - The current balance in the Account.
      */
-    public SavingsAccount (
+    public SavingsAccount(
         String id,
         String ownerName,
         double balance
-        ) {
-            super(id, ownerName, balance, AccountType.SAVINGS);
-        }
+    ) {
+        super(
+            id,
+            ownerName,
+            balance
+        );
+    }
+
+    // Instance methods
+    /**
+     * Account type accessor
+     * @return Either {@code AccountType.CHECKING} or {@code AccountType.SAVINGS}
+     */
+    public AccountType getAccountType()
+    {
+        return AccountType.SAVINGS;
+    }
 }

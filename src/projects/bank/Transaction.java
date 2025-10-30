@@ -12,8 +12,10 @@ public abstract class Transaction
      * @param accountID - The ID of the transaction's target account
      * @param amount - The amount of money that should be deposited or withdrawn
      */
-    protected Transaction(String accountID, double amount)
-    {
+    protected Transaction(
+        String accountID,
+        double amount
+    ) {
         // Ensure no null values are present and transaction amount is not negative
         if (accountID != null
         &&  amount >= 0)
