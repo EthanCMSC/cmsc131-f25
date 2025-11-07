@@ -109,11 +109,22 @@ public abstract class Account
     @Override 
     public String toString()
     {
+        String accountTypeStr;
+        if (this.getAccountType() == AccountType.CHECKING)
+        {
+            accountTypeStr = "checking";
+        }
+        else
+        {
+            accountTypeStr = "savings";
+        }
+
         return String.format(
-            "%s,%s,%.2f",
+            "%s,%s,%.2f,%s",
             this.getID(),
             this.getOwnerName(),
-            this.getBalance()
+            this.getBalance(),
+            accountTypeStr
         );
     }
 

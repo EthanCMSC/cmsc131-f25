@@ -24,12 +24,13 @@ public class Deposit extends Transaction
      * @param acct - The account to execute the deposit on
      * @return {@code true} if successful
      */
-    public boolean execute(Account acct)
+    public boolean execute(Account acct, Audit audit)
     {
         if (acct != null
-        &&  this.validate(acct))
+        &&  this.validate(acct, audit))
         {
             acct.credit(this.getAmount());
+            audit.recordSuccess(this, acct);
             return true;
         }
         else
@@ -43,7 +44,7 @@ public class Deposit extends Transaction
      * @param acct - The account that the deposit would be executed on.
      * @return {@code true} if the deposit is safe to execute.
      */
-    protected boolean validate(Account acct)
+    protected boolean validate(Account acct, Audit audit)
     {
         return true;
     }

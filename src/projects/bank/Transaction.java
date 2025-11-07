@@ -38,7 +38,7 @@ public abstract class Transaction
      * Executes the Transaction. Returns true if successful; returns false otherwise.
      * @param account - The Account to execute the Transaction on
      */
-    public abstract boolean execute(Account acct);
+    public abstract boolean execute(Account acct, Audit audit);
 
     /**
      * Returns a CSV line holding the {@code Transaction}'s data.
@@ -52,7 +52,7 @@ public abstract class Transaction
      * @return {@code true} if the transaction is safe to execute; {@code false} otherwise.
      * @throws IllegalArgumentException if parameter is {@code null}
      */
-    protected abstract boolean validate(Account acct);
+    protected abstract boolean validate(Account acct, Audit audit);
 
     // Concrete methods
     /**

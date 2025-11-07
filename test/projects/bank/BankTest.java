@@ -9,12 +9,14 @@ public class BankTest
 {
     private Bank bank;
     private Account acct;
+    private String txFileName;
 
     @BeforeEach
     void setup()
     {
         bank = new Bank();
         acct = new SavingsAccount("id0", "Owner Name", 1000.0);
+        txFileName = "test/projects/bank/testtransactions.csv";
     }
 
     // tests for add method
@@ -110,9 +112,9 @@ public class BankTest
         bank.add(acct1);
         bank.add(acct2);
 
-        assertNotEquals(
-            -1,
-            bank.processTransactions("data/testtransactions.csv")
+        assertEquals(
+            4,
+            bank.processTransactions(txFileName)
         );
     }
 }

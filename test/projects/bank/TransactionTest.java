@@ -2,6 +2,8 @@ package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +11,7 @@ public class TransactionTest
 {
     private Deposit dpst;
     private Withdrawal wtdl;
+    private Audit audit;
     private CheckingAccount acct1;
     private CheckingAccount acct2;
 
@@ -19,15 +22,27 @@ public class TransactionTest
             "id0",
             250.00
         );
+
         wtdl = new Withdrawal(
             "id0",
             250.00
         );
+
+        try
+        {
+            audit = new Audit("test/projects/bank/audittest.log");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
         acct1 = new CheckingAccount(
             "id0",
             "Owner Name",
             1000.00
         );
+
         acct2 = new CheckingAccount(
             "id1",
             "Owner Name",
@@ -49,15 +64,15 @@ public class TransactionTest
     void testValidate()
     {
         assertEquals(
-            dpst.validate(acct1),
+            dpst.validate(acct1, audit),
             true
         );
         assertEquals(
-            wtdl.validate(acct1),
+            wtdl.validate(acct1, audit),
             true
         );
         assertEquals(
-            wtdl.validate(acct2),
+            wtdl.validate(acct2, audit),
             false
         );
     }
@@ -66,7 +81,7 @@ public class TransactionTest
     void testExecute()
     {
         assertEquals(
-            dpst.execute(acct1),
+            dpst.execute(acct1, audit),
             true
         );
         assertEquals(
@@ -75,7 +90,7 @@ public class TransactionTest
         );
 
         assertEquals(
-            wtdl.execute(acct1),
+            wtdl.execute(acct1, audit),
             true
         );
         assertEquals(
@@ -84,7 +99,7 @@ public class TransactionTest
         );
 
         assertEquals(
-            wtdl.execute(acct2),
+            wtdl.execute(acct2, audit),
             false
         );
         assertEquals(

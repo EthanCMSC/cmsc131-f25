@@ -11,6 +11,7 @@ public class Bank
     // Instance variables
     private Account[] accounts;
     private int numberOfAccounts;
+    private Audit audit;
     
     // Static variables
     private static int arrSizeIncrement = 100; // Increase size of accounts array by this value every overflow
@@ -23,6 +24,14 @@ public class Bank
     {
         this.accounts = new Account[100];
         this.numberOfAccounts = 0;
+        try
+        {
+            this.audit = new Audit("src/projects/bank/audit.log");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     // Instance methods
@@ -146,7 +155,7 @@ public class Bank
             writer.close();
             return true;
         }
-        catch(IOException e)
+        catch (IOException e)
         {
             e.printStackTrace();
             return false;
@@ -176,10 +185,10 @@ public class Bank
                 String csvString = scan.nextLine();
                 Transaction trs = Transaction.make(csvString);
                 Account acct = this.accounts[this.find(trs.getAccountID())];
-                if (trs.validate(acct))
-                {
-                    trs.execute(acct);
-                }
+                
+                trs.execute(acct, this.audit);
+                
+                transactionsProcessed ++;
             }
             scan.close();
         }
@@ -188,6 +197,7 @@ public class Bank
             e.printStackTrace();
         }
 
+        this.audit.close();
         return transactionsProcessed;
     }
 

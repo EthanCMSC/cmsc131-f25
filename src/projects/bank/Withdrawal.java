@@ -24,12 +24,13 @@ public class Withdrawal extends Transaction
      * @param acct - The account to execute the withdrawal on
      * @return {@code true} if successful; {@code false} otherwise
      */
-    public boolean execute(Account acct)
+    public boolean execute(Account acct, Audit audit)
     {
         if (acct != null
-        &&  this.validate(acct)
+        &&  this.validate(acct, audit)
         ) {
             acct.debit(this.getAmount());
+            audit.recordSuccess(this, acct);
             return true;
         }
         else
@@ -41,11 +42,20 @@ public class Withdrawal extends Transaction
     /**
      * Confirms that a withdrawal can be executed.
      * @param acct - The account that the withdrawal would be executed on.
+     * @param audit - The {@code Audit} object stored in the target account's bank.
      * @return {@code true} if the withdrawal is safe to execute; {@code false} otherwise.
      */
-    protected boolean validate(Account acct)
+    protected boolean validate(Account acct, Audit audit)
     {
-        return acct.getBalance() >= this.getAmount();
+        if (acct.getBalance() >= this.getAmount())
+        {
+            return true;
+        }
+        else
+        {
+            audit.recordNSF(this, acct);
+            return false;
+        }
     }
 
     @Override
