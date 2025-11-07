@@ -17,19 +17,22 @@ public abstract class Transaction
         double amount
     ) {
         // Ensure no null values are present and transaction amount is not negative
-        if (accountID != null
-        &&  amount >= 0)
+        if (accountID != null &&  amount >= 0)
         {
             this.accountID = accountID;
             this.amount = amount;
         }
         else if (accountID == null)
         {
-            throw new IllegalArgumentException("New Transaction's accountID value must not be null.");
+            throw new IllegalArgumentException(
+                "New Transaction's accountID value must not be null."
+            );
         }
         else if (amount < 0)
         {
-            throw new IllegalArgumentException("New Transaction's amount value must not be negative.");
+            throw new IllegalArgumentException(
+                "New Transaction's amount value must not be negative."
+            );
         }
     }
 
@@ -88,7 +91,9 @@ public abstract class Transaction
         String[] tokens = inputLine.split(",");
         String accountID = tokens[0];
         double amount = Double.valueOf(tokens[1]);
-        TransactionType transactionType = TransactionType.valueOf(tokens[2].toUpperCase());
+        TransactionType transactionType = TransactionType.valueOf(
+            tokens[2].toUpperCase()
+        );
         if (transactionType.equals(TransactionType.DEPOSIT))
         {
             return new Deposit(accountID, amount);

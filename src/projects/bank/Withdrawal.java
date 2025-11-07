@@ -1,3 +1,7 @@
+/** TODO / comments
+ * 
+ * similar comment about designing a withdrawal with a conscience
+ */
 package projects.bank;
 
 public class Withdrawal extends Transaction

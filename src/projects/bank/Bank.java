@@ -1,3 +1,11 @@
+/** TODO / comments
+ * 
+ * it would be better to construct the audit inside processTransactions, instead of making it an attribute. conceptually speaking, you want to audit the transaction processing. having an audit attribute would be handy if you're tracking all the bank's operations, but that's beyond our scope.
+ * 
+ * processTransactions
+ * don't return -1. if something goes wrong with constructing the scanner, you want to return 0 because no transactions were processed in this case
+ * find(trs.getAccountID()) could return -1, in which case this.accounts[-1] will throw an ArrayIndexOutOfBoundsException. update your code to handle this possibility
+ */
 package projects.bank;
 
 import java.io.File;

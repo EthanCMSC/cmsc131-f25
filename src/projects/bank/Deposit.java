@@ -1,3 +1,9 @@
+/** TODO / comments
+ * 
+ * execute method
+ * you shouldn't have to check for acct being null if your code cannot possibly create a null account. double-check your account constructor and make method to see if a null account is possible.
+ * by calling validate inside execute (instead of having the bank call it) you have designed a deposit with a conscience. it's a valid approach!
+ */
 package projects.bank;
 
 public class Deposit extends Transaction
