@@ -30,11 +30,15 @@ public abstract class Account
         // Throw error if null value is found
         else if (id == null)
         {
-            throw new IllegalArgumentException("New Account's id value must not be null.");
+            throw new IllegalArgumentException(
+                "New Account's id value must not be null."
+            );
         }
         else if (ownerName == null)
         {
-            throw new IllegalArgumentException("New Account's ownerName value must not be null.");
+            throw new IllegalArgumentException(
+                "New Account's ownerName value must not be null."
+            );
         }
     }
     

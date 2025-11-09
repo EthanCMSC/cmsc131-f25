@@ -102,7 +102,7 @@ public class BankTest
     void testProcessTransactions()
     {
         assertEquals(
-            -1,
+            0,
             bank.processTransactions(null)
         );
 

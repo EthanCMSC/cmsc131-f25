@@ -1,11 +1,3 @@
-/** TODO / comments
- * 
- * it would be better to construct the audit inside processTransactions, instead of making it an attribute. conceptually speaking, you want to audit the transaction processing. having an audit attribute would be handy if you're tracking all the bank's operations, but that's beyond our scope.
- * 
- * processTransactions
- * don't return -1. if something goes wrong with constructing the scanner, you want to return 0 because no transactions were processed in this case
- * find(trs.getAccountID()) could return -1, in which case this.accounts[-1] will throw an ArrayIndexOutOfBoundsException. update your code to handle this possibility
- */
 package projects.bank;
 
 import java.io.File;
@@ -19,7 +11,6 @@ public class Bank
     // Instance variables
     private Account[] accounts;
     private int numberOfAccounts;
-    private Audit audit;
     
     // Static variables
     private static int arrSizeIncrement = 100; // Increase size of accounts array by this value every overflow
@@ -32,14 +23,6 @@ public class Bank
     {
         this.accounts = new Account[100];
         this.numberOfAccounts = 0;
-        try
-        {
-            this.audit = new Audit("src/projects/bank/audit.log");
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     // Instance methods
@@ -179,33 +162,47 @@ public class Bank
     {
         int transactionsProcessed = 0;
         
-        if (filename == null)
-        {
-            return -1;
-        }
-
         try
         {
+            Audit audit = new Audit("src/projects/bank/audit.log");
             File inputFile = new File(filename);
             Scanner scan = new Scanner(inputFile);
             while (scan.hasNextLine())
             {
                 String csvString = scan.nextLine();
+
                 Transaction trs = Transaction.make(csvString);
-                Account acct = this.accounts[this.find(trs.getAccountID())];
-                
-                trs.execute(acct, this.audit);
-                
+
+                Account acct;
+                int acctIndex = this.find(trs.getAccountID());
+                if (acctIndex != -1)
+                {
+                    acct = this.accounts[acctIndex];
+                }
+                else
+                {
+                    acct = null;
+                }
+
+                if (acct != null)
+                {
+                    trs.execute(acct, audit);
+                }
+                else
+                {
+                    audit.recordNSA(trs);
+                }
+
                 transactionsProcessed ++;
             }
+            audit.close();
             scan.close();
         }
-        catch (FileNotFoundException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        this.audit.close();
         return transactionsProcessed;
     }
 

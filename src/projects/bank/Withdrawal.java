@@ -1,7 +1,3 @@
-/** TODO / comments
- * 
- * similar comment about designing a withdrawal with a conscience
- */
 package projects.bank;
 
 public class Withdrawal extends Transaction
@@ -30,8 +26,7 @@ public class Withdrawal extends Transaction
      */
     public boolean execute(Account acct, Audit audit)
     {
-        if (acct != null
-        &&  this.validate(acct, audit)
+        if (this.validate(acct, audit)
         ) {
             acct.debit(this.getAmount());
             audit.recordSuccess(this, acct);

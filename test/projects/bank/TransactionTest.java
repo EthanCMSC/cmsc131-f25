@@ -1,8 +1,3 @@
-/** TODO / comments
- * 
- * testAddDataValidation
- * be sure to also test validation of amount
- */
 package projects.bank;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,6 +58,12 @@ public class TransactionTest
             () -> {new Deposit(null, 0.0);}
         );
         assertEquals("New Transaction's accountID value must not be null.", e.getMessage());
+        
+        e = assertThrows(
+            IllegalArgumentException.class,
+            () -> {new Deposit("test", -1.0);}
+        );
+        assertEquals("New Transaction's amount value must not be negative.", e.getMessage());
     }
 
     @Test

@@ -33,6 +33,16 @@ public class AuditTest
     }
 
     @Test
+    public void testAddDataValidation()
+    {
+        Exception e = assertThrows(
+            IllegalArgumentException.class,
+            () -> {new Audit(null);}
+        );
+        assertEquals("New Audit's fileName value must not be null.", e.getMessage());
+    }
+
+    @Test
     public void testRecordNSA()
     {
         auditFileName = "test/projects/bank/audittest.log";

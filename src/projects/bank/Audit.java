@@ -19,13 +19,22 @@ public class Audit
     )
     throws IOException
     {
-        try
+        if (fileName != null)
         {
-            this.writer = new FileWriter(fileName);
+            try
+            {
+                this.writer = new FileWriter(fileName);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
-        catch (IOException e)
+        else
         {
-            e.printStackTrace();
+            throw new IllegalArgumentException(
+                "New Audit's fileName value must not be null."
+            );
         }
     }
 
