@@ -164,6 +164,10 @@ public class Bank
         
         try
         {
+            /** FBK
+             * This is fine, but you could also pass the audit file name as 
+             * an argument to processTransactions.
+             */
             Audit audit = new Audit("src/projects/bank/audit.log");
             File inputFile = new File(filename);
             Scanner scan = new Scanner(inputFile);
@@ -175,17 +179,13 @@ public class Bank
 
                 Account acct;
                 int acctIndex = this.find(trs.getAccountID());
+                /** FBK
+                 * I cleaned up the branching logic a bit. Your code did work
+                 * but I couldn't help but simplify things.
+                 */
                 if (acctIndex != -1)
                 {
                     acct = this.accounts[acctIndex];
-                }
-                else
-                {
-                    acct = null;
-                }
-
-                if (acct != null)
-                {
                     trs.execute(acct, audit);
                 }
                 else

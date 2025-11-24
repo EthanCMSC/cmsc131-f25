@@ -21,6 +21,12 @@ public class Audit
     {
         if (fileName != null)
         {
+            /** FBK
+             * This method won't throw an IOException if you use a try-catch
+             * block. It would be better to not use a try-catch block and allow 
+             * the constructor to throw, because it would prevent you from 
+             * accidentally constructing an auditor with a broken writer.
+             */
             try
             {
                 this.writer = new FileWriter(fileName);

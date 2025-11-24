@@ -60,7 +60,11 @@ public class Withdrawal extends Transaction
     @Override
     public String toString()
     {
-        return "Deposit of $" + String.format("%.2f", this.getAmount()) + " to account " + this.getAccountID();
+        return String.format(
+            "Deposit of $%.2f  to account %s",
+            getAmount(),
+            getAccountID()
+        );
     }
 
     /**
