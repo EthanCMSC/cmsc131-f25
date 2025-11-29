@@ -7,7 +7,7 @@ import org.junit.Test;
 public class MazeReaderTest
 {
     @Test
-    public void testLoad() // TODO: fix whatever is causing problems in this test
+    public void testLoad()
     {
         String filename = "test/projects/maze/maze_reader_test.txt";
 
