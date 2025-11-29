@@ -50,7 +50,7 @@ public class MazeReaderTest
         expected.insertCell(new Cell(
             new Coords(
                 2,
-                1
+                0
             ),
             CellStatus.S)
         );
@@ -66,7 +66,7 @@ public class MazeReaderTest
         Maze actual = MazeReader.load(filename);
 
         assertTrue(
-            expected.equals(actual)
+            expected.getGrid().equals(actual.getGrid())
         );
     }
 }

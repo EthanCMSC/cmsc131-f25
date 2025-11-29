@@ -47,4 +47,30 @@ public class Grid
         }
         return allCells;
     }
+
+    public boolean equals(Grid other)
+    {
+        int numCellsInThis = this.getCellCount();
+        int numCellsInOther = other.getCellCount();
+
+        if (numCellsInThis == numCellsInOther)
+        {
+            for (int i = 0; i < numCellsInThis; i ++)
+            {
+                Cell thisCell = this.getAllCells()[i];
+                Cell otherCell = other.getAllCells()[i];
+
+                if (!thisCell.equals(otherCell))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

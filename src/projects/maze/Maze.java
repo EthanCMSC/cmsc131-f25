@@ -13,6 +13,11 @@ public class Maze
         this.grid = new Grid(maxCells);
     }
 
+    public Grid getGrid()
+    {
+        return this.grid;
+    }
+
     public Cell getStart()
     {
         return this.getFirstCellWithStatus(CellStatus.S);

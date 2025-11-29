@@ -70,4 +70,32 @@ public class Cell
     {
         this.status = status;
     }
+
+    public boolean equals(Cell other)
+    {
+        int numNeighborsInThis = this.getNeighbors().length;
+        int numNeighborsInOther = other.getNeighbors().length;
+        
+        if (numNeighborsInThis == numNeighborsInOther)
+        {
+            for (int i = 0; i < numNeighborsInThis; i ++)
+            {
+                Coords thisNeighbor = this.getNeighbors()[i];
+                Coords otherNeighbor = other.getNeighbors()[i];
+
+                if (!thisNeighbor.equals(otherNeighbor))
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+        return (
+            this.getCoords().equals(other.getCoords())
+        &&  this.getStatus() == other.getStatus()
+        );
+    }
 }
