@@ -7,6 +7,11 @@ public class Cell
     private boolean explored;
     private CellStatus status;
 
+    /**
+     * Cell constructor
+     * @param coords - {@code Coords} object representing cell's coordinates on the grid
+     * @param status - {@code CellStatus} representing cell type
+     */
     public Cell(
         Coords coords,
         CellStatus status

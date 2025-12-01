@@ -5,6 +5,11 @@ public class Coords
     private final int row;
     private final int col;
 
+    /**
+     * {@code Coords} constructor
+     * @param row - Row coordinate (top-most row is row {@code 0})
+     * @param col - Column coordinate (left-most column is col {@code 0})
+     */
     public Coords(int row, int col)
     {
         this.row = row;

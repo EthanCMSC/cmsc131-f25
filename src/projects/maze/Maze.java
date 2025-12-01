@@ -8,6 +8,10 @@ public class Maze
 {
     private final Grid grid;
 
+    /**
+     * {@code Maze} constructor
+     * @param maxCells - The highest number of cells the maze should have at any given time
+     */
     public Maze(int maxCells)
     {
         this.grid = new Grid(maxCells);
@@ -18,21 +22,39 @@ public class Maze
         return this.grid;
     }
 
+    /**
+     * Finds the starting cell in the maze and returns it.
+     * @return The first cell in the maze with the "start" status
+     */
     public Cell getStart()
     {
         return this.getFirstCellWithStatus(CellStatus.S);
     }
 
+    /**
+     * Finds the ending cell in the maze and returns it.
+     * @return The first cell in the maze with the "end" status
+     */
     public Cell getEnd()
     {
         return this.getFirstCellWithStatus(CellStatus.E);
     }
 
+    /**
+     * Inserts a new cell into the maze and increments its {@code Grid} object's {@code cellCount} value accordingly.
+     * @param cell - The cell to insert
+     * @return {@code true} if successful; {@code false} otherwise
+     */
     public boolean insertCell(Cell cell)
     {
         return this.grid.insertCell(cell);
     }
 
+    /**
+     * Finds the first cell in the maze with a specified status and returns it.
+     * @param status - The {@code CellStatus} value to look for
+     * @return The first cell in the maze with the specified status
+     */
     private Cell getFirstCellWithStatus(CellStatus status)
     {
         for (Cell cell : this.grid.getAllCells())
@@ -45,6 +67,9 @@ public class Maze
         return null;
     }
 
+    /**
+     * Determines the coordinates of all cells in the maze, and sets their {@code neighbors} values accordingly.
+     */
     public void discoverAndSetupNeighbors()
     {
         for (Cell cell : this.grid.getAllCells())
@@ -60,7 +85,9 @@ public class Maze
     }
 
     /**
-     * Provided by Dusel. Assumes grid cell has a {@code getStatus()} method.
+     * Provided by Dusel.
+     * Saves maze to file with specified name as lines of text.
+     * Assumes grid cell has a {@code getStatus()} method.
      * @param filename - Output filename.
      */
     public void serialize(String filename)

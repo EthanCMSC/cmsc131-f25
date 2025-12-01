@@ -7,10 +7,11 @@ import java.util.Scanner;
 public class MazeReader
 {
     /**
-     * Provided by Dusel. 
+     * Provided by Dusel.
+     * Loads and returns a {@code Maze} object from a text ({@code .txt}) file.
      * Assmes existence of {@code CellStatus} {@code enum} with values {@code S}, {@code O}, {@code E}.
      * Assumes existence of {@code discoverAndSetupNeighbors} instance method for {@code Maze}.
-     * @param filename
+     * @param filename - The name of the text file to read {@code Maze} data from.
      * @return {@code Maze} object representing the text in the file.
      */
     public static Maze load(String filename)
@@ -59,6 +60,11 @@ public class MazeReader
         }
     }
 
+    /**
+     * Counts the number of non-wall spaces in a maze text file, and returns that number as an {@code int}.
+     * @param filename - The name of the text file to read {@code Maze} data from.
+     * @return {@code int} value representing the number of non-wall spaces in maze text file.
+     */
     private static int countSpacesIn(String filename)
     {
         try
