@@ -67,6 +67,11 @@ public class Maze
         return null;
     }
 
+    public Cell[] getAllCells()
+    {
+        return this.grid.getAllCells();
+    }
+
     /**
      * Determines the coordinates of all cells in the maze, and sets their {@code neighbors} values accordingly.
      */
@@ -74,13 +79,29 @@ public class Maze
     {
         for (Cell cell : this.grid.getAllCells())
         {
-            Coords[] neighbors = {
+            Coords[] potentialNeighbors = {
                 new Coords(cell.getCoords().getRow() - 1, cell.getCoords().getCol()),
                 new Coords(cell.getCoords().getRow() + 1, cell.getCoords().getCol()),
                 new Coords(cell.getCoords().getRow(), cell.getCoords().getCol() - 1),
                 new Coords(cell.getCoords().getRow(), cell.getCoords().getCol() + 1)
             };
-            cell.setNeighbors(neighbors);
+            // check potential neighbor for grid membership before adding
+            Coords[] neighbors = new Coords[potentialNeighbors.length];
+            int neighborsCount = 0;
+            for (Coords pn : potentialNeighbors)
+            {
+                if (grid.getCell(pn) != null)
+                {
+                    neighbors[neighborsCount++] = pn;
+                }
+            }
+            // trim nulls
+            Coords[] neighborsTrimmed = new Coords[neighborsCount];
+            for (int idx = 0; idx < neighborsCount; idx++)
+            {
+                neighborsTrimmed[idx] = neighbors[idx];
+            }
+            cell.setNeighbors(neighborsTrimmed);
         }
     }
 
