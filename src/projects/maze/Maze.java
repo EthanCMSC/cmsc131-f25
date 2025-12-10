@@ -67,6 +67,10 @@ public class Maze
         return null;
     }
 
+    /**
+     * Returns an array with all cells in maze.
+     * @return A {@code Cell[]} holding all cells in maze
+     */
     public Cell[] getAllCells()
     {
         return this.grid.getAllCells();
@@ -92,12 +96,12 @@ public class Maze
             {
                 if (grid.getCell(pn) != null)
                 {
-                    neighbors[neighborsCount++] = pn;
+                    neighbors[neighborsCount ++] = pn;
                 }
             }
             // trim nulls
             Coords[] neighborsTrimmed = new Coords[neighborsCount];
-            for (int idx = 0; idx < neighborsCount; idx++)
+            for (int idx = 0; idx < neighborsCount; idx ++)
             {
                 neighborsTrimmed[idx] = neighbors[idx];
             }
@@ -164,5 +168,49 @@ public class Maze
         {
             e.printStackTrace();
         }   
+    }
+
+    /**
+     * Solves the maze and marks cells that are part of the solution path by using the {@code leadsToExit()} method.
+     * @return {@code true} if maze has a solution; {@code false} otherwise.
+     */
+    public boolean depthFirstSolve()
+    {
+        return leadsToExit(this.getStart());
+    }
+
+    /**
+     * Determines if a given cell is on the optimal path to the maze exit. This method will call itself until all cells have been explored and marked appropriately.
+     * @param cell - The cell to start the depth-first search at.
+     * @return {@code true} if the passed cell leads to the maze end space; {@code false} otherwise.
+     */
+    private boolean leadsToExit(Cell cell)
+    {
+        cell.setExplored(true);
+
+        if (cell.getStatus() == CellStatus.E)
+        {
+            return true;
+        }
+        else if (cell.getStatus() == CellStatus.O)
+        {
+            cell.setStatus(CellStatus.P);
+        }
+
+        for (Coords coords : cell.getNeighbors())
+        {
+            Cell neighbor = this.getGrid().getCell(coords);
+            if (!neighbor.isExplored()
+            &&  leadsToExit(neighbor))
+            {
+                return true;
+            }
+        }
+        
+        if (cell.getStatus() == CellStatus.P)
+        {
+            cell.setStatus(CellStatus.O);
+        }
+        return false;
     }
 }
