@@ -6,6 +6,19 @@ public class Main
     public static void main(String[] args)
     {
         phase2();
+        hardMazes();
+    }
+
+    private static void hardMazes() 
+    {
+        Maze maze = MazeReader.load("data/hard_maze.txt");
+        if (maze.depthFirstSolve()) {
+            maze.serialize("data/hard_maze.out");
+        }
+        maze = MazeReader.load("data/hard_maze_nosol.txt");
+        if (maze.depthFirstSolve()) {
+            maze.serialize("data/hard_maze_nosol.out");
+        }
     }
 
     private static void phase1()
